@@ -1,0 +1,26 @@
+{
+  "collectionName": "components_welcome_welcomes",
+  "info": {
+    "displayName": "Welcome",
+    "icon": ""
+  },
+  "options": {},
+  "attributes": {
+    "Text": {
+      "type": "string",
+      "required": true
+    },
+    "Image": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false,
+      "required": true
+    },
+    "ButtonText": {
+      "type": "string",
+      "required": true
+    }
+  }
+}
