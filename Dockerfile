@@ -24,5 +24,9 @@ ENV PATH /opt/node_modules/.bin:$PATH
 
 RUN chown -R node:node /opt/app
 USER node
+
+# Importing default Strapi content (Home page, etc)
+RUN ./generate-env.sh && yarn strapi import --force -f content/base-content.tar.gz && rm .env
+
 EXPOSE 1337
 CMD ["yarn", "start"]
