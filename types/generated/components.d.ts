@@ -10,6 +10,7 @@ export interface CatalogCatalog extends Schema.Component {
     Title: Attribute.String & Attribute.Required;
     Description: Attribute.String & Attribute.Required;
     Background: Attribute.Media;
+    ButtonText: Attribute.String;
   };
 }
 
