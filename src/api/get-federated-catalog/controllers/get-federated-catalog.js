@@ -1,30 +1,99 @@
 'use strict';
 
-/**
- * A set of functions called "actions" for `get-federated-catalog`
- */
+const axios = require('axios');
 
-module.exports = {
-  getFederatedCatalog: async (ctx, next) => {
-    try {
-      const params = new URLSearchParams();
-      params.append('grant_type', 'password');
-      params.append('client_id', 'dataspace-users');
-      params.append('username', 'user-c1');
-      params.append('password', 'user-c1');
-
-      // external API
-      // const url = `${FEDERATED_CATALOG_URL}`;
-      const url = 'http://localhost:8080/realms/dataspace/protocol/openid-connect/token'
-
-      // fetch data from external API
-      const { data } = await axios.post(url, params);
-      console.log(data);
-      ctx.body = data;
-
-      return ctx.body;
-    } catch (err) {
-      ctx.body = err;
-    }
-  }
+const tokenData = {
+  accessToken: null,
+  refreshToken: null,
+  expiresIn: null,
+  refreshExpiresIn: null,
+  obtainedAt: null
 };
+
+const getTokenFromAuthServer = async () => {
+  const params = new URLSearchParams();
+  params.append('grant_type', 'password');
+  params.append('client_id', 'dataspace-users');
+  params.append('username', 'user-c1');
+  params.append('password', 'user-c1');
+
+  const tokenUrl = 'http://keycloak:8080/realms/dataspace/protocol/openid-connect/token';
+
+  const response = await axios.post(tokenUrl, params);
+  const data = response.data;
+
+  tokenData.accessToken = data.access_token;
+  tokenData.refreshToken = data.refresh_token;
+  tokenData.expiresIn = data.expires_in;
+  tokenData.refreshExpiresIn = data.refresh_expires_in;
+  tokenData.obtainedAt = Date.now();
+
+  return data;
+};
+
+const refreshToken = async () => {
+  const params = new URLSearchParams();
+  params.append('grant_type', 'refresh_token');
+  params.append('client_id', 'dataspace-users');
+  params.append('refresh_token', tokenData.refreshToken);
+
+  const tokenUrl = 'http://keycloak:8080/realms/dataspace/protocol/openid-connect/token';
+
+  const response = await axios.post(tokenUrl, params);
+  const data = response.data;
+
+  tokenData.accessToken = data.access_token;
+  tokenData.refreshToken = data.refresh_token;
+  tokenData.expiresIn = data.expires_in;
+  tokenData.refreshExpiresIn = data.refresh_expires_in;
+  tokenData.obtainedAt = Date.now();
+
+  return data;
+};
+
+const getAccessToken = async () => {
+  if (!tokenData.accessToken || !tokenData.refreshToken) {
+    await getTokenFromAuthServer();
+  } else {
+    const currentTime = Date.now();
+    const accessTokenExpired = (currentTime - tokenData.obtainedAt) / 1000 > tokenData.expiresIn;
+    const refreshTokenExpired = (currentTime - tokenData.refreshObtainedAt) / 1000 > tokenData.refreshExpiresIn;
+
+    if (refreshTokenExpired) {
+      await getTokenFromAuthServer();
+    } else if (accessTokenExpired) {
+      await refreshToken();
+    }
+    return tokenData.accessToken;
+  };
+
+  module.exports = {
+    getFederatedCatalog: async (ctx, next) => {
+      try {
+        const accessToken = await getAccessToken();
+        if (!accessToken) {
+          ctx.body = { message: 'Access token not available. Please authenticate first.' };
+          ctx.status = 401;
+          return;
+        }
+
+        // URL for fetching the federated catalog
+        const catalogUrl = 'http://connector-c1:19193/management/federatedcatalog';
+
+        // Fetch the federated catalog using the access token
+        const response = await axios.post(catalogUrl, {}, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`
+          }
+        });
+
+
+        // Respond with the fetched data
+        ctx.body = response.data;
+      } catch (err) {
+        console.error('Error:', err);
+        ctx.body = { message: 'Error fetching federated catalog!' + err };
+        ctx.status = 500;
+      }
+    }
+  };
