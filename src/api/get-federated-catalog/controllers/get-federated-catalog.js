@@ -97,10 +97,10 @@ module.exports = {
       }
 
       // URL for fetching the federated catalog
-      const catalogUrl = `${process.env.CATALOG_BASE_URL}/management/federatedcatalog`;
+      const catalogUrl = `${process.env.CATALOG_BASE_URL}/management/federatedcatalog/request`;
 
       // Fetch the federated catalog using the access token
-      const response = await axios.post(catalogUrl, {}, {
+      const response = await axios.post(catalogUrl, ctx.request.body, {
         headers: {
           Authorization: `Bearer ${accessToken}`
         }
