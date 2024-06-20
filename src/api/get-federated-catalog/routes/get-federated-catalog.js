@@ -1,7 +1,7 @@
 module.exports = {
   "routes": [
     {
-      "method": "GET",
+      "method": "POST",
       "path": "/get-federated-catalog",
       "handler": "get-federated-catalog.getFederatedCatalog"
     }
