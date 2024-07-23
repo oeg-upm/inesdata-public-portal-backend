@@ -1,7 +1,7 @@
 'use strict';
 
 const axios = require('axios');
-const tokenService = require('./token-service');
+const tokenService = require('../../services/token-service');
 
 
 module.exports = {
