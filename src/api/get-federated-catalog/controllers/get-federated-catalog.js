@@ -17,7 +17,13 @@ module.exports = {
       // URL for fetching the federated catalog
       const countCatalogUrl = `${process.env.CATALOG_BASE_URL}/management/pagination/count?type=federatedCatalog`;
 
-      const countResponse = await axios.get(countCatalogUrl, {
+      const body = ctx.request.body
+      delete body.offset
+      delete body.limit
+      delete body.sortOrder
+      delete body.sortField
+
+      const countResponse = await axios.post(countCatalogUrl, body,{
         headers: {
           Authorization: `Bearer ${accessToken}`
         }

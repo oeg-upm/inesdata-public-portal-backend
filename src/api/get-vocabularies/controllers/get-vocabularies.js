@@ -16,17 +16,17 @@ module.exports = {
 
 
       // URL for fetching the vocabularies
-      const catalogUrl = `${process.env.VOCABULARIES_BASE_URL}/shared/request`;
+      const vocabulariesBaseUrl = `${process.env.VOCABULARIES_BASE_URL}/shared/connector-vocabularies/request`;
 
       // Fetch the vocabularies using the access token
-      const vocabulariesResponse = await axios.post(catalogUrl, {}, {
+      const vocabulariesResponse = await axios.post(vocabulariesBaseUrl, {}, {
         headers: {
           Authorization: `Bearer ${accessToken}`
         }
       });
 
       // Respond with the fetched data
-      ctx.body = vocabulariesResponse;
+      ctx.body = vocabulariesResponse.data;
     } catch (err) {
       console.error('Error:', err);
       ctx.body = { message: 'Error fetching vocabularies!', details: err.message };
