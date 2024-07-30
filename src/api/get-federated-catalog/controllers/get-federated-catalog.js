@@ -17,7 +17,7 @@ module.exports = {
       // URL for fetching the federated catalog
       const countCatalogUrl = `${process.env.CATALOG_BASE_URL}/management/pagination/count?type=federatedCatalog`;
 
-      const body = ctx.request.body
+      const body = { ...ctx.request.body };
       delete body.offset
       delete body.limit
       delete body.sortOrder
