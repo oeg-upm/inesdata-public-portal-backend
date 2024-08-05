@@ -17,7 +17,7 @@ const getTokenFromAuthServer = async () => {
     params.append('username', process.env.TOKEN_USERNAME);
     params.append('password', process.env.TOKEN_PASSWORD);
 
-    const tokenUrl = `${process.env.KEYCLOAK_BASE_URL}/realms/dataspace/protocol/openid-connect/token`;
+    const tokenUrl = `${process.env.KEYCLOAK_BASE_URL}/protocol/openid-connect/token`;
 
     const response = await axios.post(tokenUrl, params);
     const data = response.data;
@@ -43,7 +43,7 @@ const refreshToken = async () => {
     params.append('client_id', process.env.TOKEN_CLIENT_ID);
     params.append('refresh_token', tokenData.refreshToken);
 
-    const tokenUrl = `${process.env.KEYCLOAK_BASE_URL}/realms/dataspace/protocol/openid-connect/token`;
+    const tokenUrl = `${process.env.KEYCLOAK_BASE_URL}/protocol/openid-connect/token`;
 
     const response = await axios.post(tokenUrl, params);
     const data = response.data;
