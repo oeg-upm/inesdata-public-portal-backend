@@ -39,6 +39,17 @@ module.exports = {
         }
       });
 
+      catalogsResponse.data.forEach(catalog => {
+          delete catalog['http://www.w3.org/ns/dcat#service'];
+          delete catalog['originator'];
+
+          catalog['http://www.w3.org/ns/dcat#dataset'].forEach(dataset => {
+              delete dataset['http://www.w3.org/ns/dcat#distribution'];
+              delete dataset['odrl:hasPolicy'];
+              delete dataset['@type'];
+          });
+      });
+
       const finalResponse = {
         catalogs: catalogsResponse.data,
         totalElements: countResponse.data
