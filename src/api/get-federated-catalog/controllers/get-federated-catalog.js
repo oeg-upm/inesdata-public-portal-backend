@@ -23,7 +23,7 @@ module.exports = {
       delete body.sortOrder
       delete body.sortField
 
-      const countResponse = await axios.post(countCatalogUrl, body,{
+      const countResponse = await axios.post(countCatalogUrl, body, {
         headers: {
           Authorization: `Bearer ${accessToken}`
         }
@@ -36,6 +36,24 @@ module.exports = {
       const catalogsResponse = await axios.post(catalogUrl, ctx.request.body, {
         headers: {
           Authorization: `Bearer ${accessToken}`
+        }
+      });
+
+      catalogsResponse.data.forEach(catalog => {
+        delete catalog['http://www.w3.org/ns/dcat#service'];
+        delete catalog['originator'];
+
+        const datasets = catalog['http://www.w3.org/ns/dcat#dataset'];
+        if (Array.isArray(datasets)) {
+          datasets.forEach(dataset => {
+            delete dataset['http://www.w3.org/ns/dcat#distribution'];
+            delete dataset['odrl:hasPolicy'];
+            delete dataset['@type'];
+          });
+        } else {
+          delete datasets['http://www.w3.org/ns/dcat#distribution'];
+          delete datasets['odrl:hasPolicy'];
+          delete datasets['@type'];
         }
       });
 
