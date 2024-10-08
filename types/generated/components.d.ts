@@ -10,7 +10,6 @@ export interface CatalogCatalog extends Schema.Component {
     Title: Attribute.String & Attribute.Required;
     Description: Attribute.String & Attribute.Required;
     Background: Attribute.Media;
-    ButtonText: Attribute.String;
   };
 }
 
@@ -36,7 +35,6 @@ export interface JoinJoin extends Schema.Component {
   attributes: {
     Title: Attribute.String & Attribute.Required;
     Description: Attribute.RichText & Attribute.Required;
-    ButtonText: Attribute.String & Attribute.Required;
     Image: Attribute.Media & Attribute.Required;
   };
 }
@@ -46,11 +44,11 @@ export interface WelcomeWelcome extends Schema.Component {
   info: {
     displayName: 'Welcome';
     icon: '';
+    description: '';
   };
   attributes: {
     Text: Attribute.String & Attribute.Required;
     Image: Attribute.Media & Attribute.Required;
-    ButtonText: Attribute.String & Attribute.Required;
   };
 }
 

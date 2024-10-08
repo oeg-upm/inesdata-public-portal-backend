@@ -21,10 +21,6 @@
       "allowedTypes": [
         "images"
       ]
-    },
-    "ButtonText": {
-      "type": "string",
-      "required": false
     }
   }
 }
