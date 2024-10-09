@@ -2,7 +2,8 @@
   "collectionName": "components_welcome_welcomes",
   "info": {
     "displayName": "Welcome",
-    "icon": ""
+    "icon": "",
+    "description": ""
   },
   "options": {},
   "attributes": {
@@ -11,16 +12,12 @@
       "required": true
     },
     "Image": {
-      "allowedTypes": [
-        "images"
-      ],
       "type": "media",
       "multiple": false,
-      "required": true
-    },
-    "ButtonText": {
-      "type": "string",
-      "required": true
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
     }
   }
 }
