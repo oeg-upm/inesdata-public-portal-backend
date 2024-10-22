@@ -32,27 +32,7 @@
           "localized": true
         }
       },
-      "component": "welcome.welcome"
-    },
-    "GetToKnowUs": {
-      "type": "component",
-      "repeatable": false,
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      },
-      "component": "get-to-know-us.get-to-know-us"
-    },
-    "Join": {
-      "type": "component",
-      "repeatable": false,
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      },
-      "component": "join.join"
+      "component": "landing-page-components.welcome"
     },
     "Catalog": {
       "type": "component",
@@ -62,7 +42,27 @@
           "localized": true
         }
       },
-      "component": "catalog.catalog"
+      "component": "landing-page-components.catalog"
+    },
+    "GetToKnowUs": {
+      "type": "component",
+      "repeatable": false,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "component": "landing-page-components.get-to-know-us"
+    },
+    "Join": {
+      "type": "component",
+      "repeatable": false,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "component": "landing-page-components.join"
     }
   }
 }

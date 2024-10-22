@@ -1,17 +1,14 @@
 {
-  "collectionName": "components_join_joins",
+  "collectionName": "components_landing_page_components_welcomes",
   "info": {
-    "displayName": "Join",
+    "displayName": "Welcome",
+    "icon": "",
     "description": ""
   },
   "options": {},
   "attributes": {
-    "Title": {
+    "Text": {
       "type": "string",
-      "required": true
-    },
-    "Description": {
-      "type": "richtext",
       "required": true
     },
     "Image": {

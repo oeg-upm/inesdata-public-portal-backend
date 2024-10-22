@@ -1,7 +1,7 @@
 import type { Schema, Attribute } from '@strapi/strapi';
 
-export interface CatalogCatalog extends Schema.Component {
-  collectionName: 'components_catalog_catalogs';
+export interface LandingPageComponentsCatalog extends Schema.Component {
+  collectionName: 'components_landing_page_components_catalogs';
   info: {
     displayName: 'Catalog';
     description: '';
@@ -13,8 +13,8 @@ export interface CatalogCatalog extends Schema.Component {
   };
 }
 
-export interface GetToKnowUsGetToKnowUs extends Schema.Component {
-  collectionName: 'components_get_to_know_us_get_to_know_uses';
+export interface LandingPageComponentsGetToKnowUs extends Schema.Component {
+  collectionName: 'components_landing_page_components_get_to_know_uses';
   info: {
     displayName: 'Get To Know us';
     description: '';
@@ -26,8 +26,8 @@ export interface GetToKnowUsGetToKnowUs extends Schema.Component {
   };
 }
 
-export interface JoinJoin extends Schema.Component {
-  collectionName: 'components_join_joins';
+export interface LandingPageComponentsJoin extends Schema.Component {
+  collectionName: 'components_landing_page_components_joins';
   info: {
     displayName: 'Join';
     description: '';
@@ -39,8 +39,8 @@ export interface JoinJoin extends Schema.Component {
   };
 }
 
-export interface WelcomeWelcome extends Schema.Component {
-  collectionName: 'components_welcome_welcomes';
+export interface LandingPageComponentsWelcome extends Schema.Component {
+  collectionName: 'components_landing_page_components_welcomes';
   info: {
     displayName: 'Welcome';
     icon: '';
@@ -55,10 +55,10 @@ export interface WelcomeWelcome extends Schema.Component {
 declare module '@strapi/types' {
   export module Shared {
     export interface Components {
-      'catalog.catalog': CatalogCatalog;
-      'get-to-know-us.get-to-know-us': GetToKnowUsGetToKnowUs;
-      'join.join': JoinJoin;
-      'welcome.welcome': WelcomeWelcome;
+      'landing-page-components.catalog': LandingPageComponentsCatalog;
+      'landing-page-components.get-to-know-us': LandingPageComponentsGetToKnowUs;
+      'landing-page-components.join': LandingPageComponentsJoin;
+      'landing-page-components.welcome': LandingPageComponentsWelcome;
     }
   }
 }
