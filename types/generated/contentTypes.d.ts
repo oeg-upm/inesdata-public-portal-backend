@@ -362,6 +362,46 @@ export interface AdminTransferTokenPermission extends Schema.CollectionType {
   };
 }
 
+export interface ApiGenericPageGenericPage extends Schema.CollectionType {
+  collectionName: 'generic_pages';
+  info: {
+    singularName: 'generic-page';
+    pluralName: 'generic-pages';
+    displayName: 'Generic Page';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Title: Attribute.String;
+    Content: Attribute.RichText &
+      Attribute.Required &
+      Attribute.CustomField<
+        'plugin::ckeditor.CKEditor',
+        {
+          output: 'HTML';
+          preset: 'rich';
+        }
+      >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::generic-page.generic-page',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::generic-page.generic-page',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiLandingPageLandingPage extends Schema.SingleType {
   collectionName: 'landing_pages';
   info: {
@@ -385,25 +425,25 @@ export interface ApiLandingPageLandingPage extends Schema.SingleType {
           localized: true;
         };
       }>;
-    Welcome: Attribute.Component<'welcome.welcome'> &
+    Welcome: Attribute.Component<'landing-page-components.welcome'> &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
         };
       }>;
-    GetToKnowUs: Attribute.Component<'get-to-know-us.get-to-know-us'> &
+    Catalog: Attribute.Component<'landing-page-components.catalog'> &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
         };
       }>;
-    Join: Attribute.Component<'join.join'> &
+    GetToKnowUs: Attribute.Component<'landing-page-components.get-to-know-us'> &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
         };
       }>;
-    Catalog: Attribute.Component<'catalog.catalog'> &
+    Join: Attribute.Component<'landing-page-components.join'> &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
@@ -661,6 +701,109 @@ export interface PluginContentReleasesReleaseAction
   };
 }
 
+export interface PluginMenusMenu extends Schema.CollectionType {
+  collectionName: 'menus';
+  info: {
+    name: 'Menu';
+    displayName: 'Menu';
+    singularName: 'menu';
+    pluralName: 'menus';
+    tableName: 'menus';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    title: Attribute.String & Attribute.Required;
+    slug: Attribute.UID<'plugin::menus.menu', 'title'> & Attribute.Required;
+    items: Attribute.Relation<
+      'plugin::menus.menu',
+      'oneToMany',
+      'plugin::menus.menu-item'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'plugin::menus.menu',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'plugin::menus.menu',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface PluginMenusMenuItem extends Schema.CollectionType {
+  collectionName: 'menu_items';
+  info: {
+    name: 'MenuItem';
+    displayName: 'Menu Item';
+    singularName: 'menu-item';
+    pluralName: 'menu-items';
+    tableName: 'menu_items';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    order: Attribute.Integer;
+    title: Attribute.String & Attribute.Required;
+    url: Attribute.String;
+    target: Attribute.Enumeration<['_blank', '_parent', '_self', '_top']>;
+    root_menu: Attribute.Relation<
+      'plugin::menus.menu-item',
+      'manyToOne',
+      'plugin::menus.menu'
+    > &
+      Attribute.Required;
+    parent: Attribute.Relation<
+      'plugin::menus.menu-item',
+      'oneToOne',
+      'plugin::menus.menu-item'
+    >;
+    related_content: Attribute.Relation<
+      'plugin::menus.menu-item',
+      'oneToOne',
+      'api::generic-page.generic-page'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'plugin::menus.menu-item',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'plugin::menus.menu-item',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface PluginI18NLocale extends Schema.CollectionType {
   collectionName: 'i18n_locale';
   info: {
@@ -869,11 +1012,14 @@ declare module '@strapi/types' {
       'admin::api-token-permission': AdminApiTokenPermission;
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
+      'api::generic-page.generic-page': ApiGenericPageGenericPage;
       'api::landing-page.landing-page': ApiLandingPageLandingPage;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
+      'plugin::menus.menu': PluginMenusMenu;
+      'plugin::menus.menu-item': PluginMenusMenuItem;
       'plugin::i18n.locale': PluginI18NLocale;
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;

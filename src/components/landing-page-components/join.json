@@ -1,7 +1,7 @@
 {
-  "collectionName": "components_get_to_know_us_get_to_know_uses",
+  "collectionName": "components_landing_page_components_joins",
   "info": {
-    "displayName": "Get To Know us",
+    "displayName": "Join",
     "description": ""
   },
   "options": {},
@@ -14,13 +14,13 @@
       "type": "richtext",
       "required": true
     },
-    "Background": {
-      "allowedTypes": [
-        "images"
-      ],
+    "Image": {
       "type": "media",
       "multiple": false,
-      "required": true
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
     }
   }
 }

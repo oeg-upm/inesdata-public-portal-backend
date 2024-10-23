@@ -9,4 +9,19 @@ module.exports = [
   'strapi::session',
   'strapi::favicon',
   'strapi::public',
+  {
+    name: 'global::filter-related-content',
+    config: {},
+  },
+  {
+    name: 'strapi::security',
+    config: {
+      contentSecurityPolicy: {
+        useDefaults: true,
+        directives: {
+          'script-src': ['https://cdn.ckeditor.com']
+        },
+      },
+    },
+  },
 ];
